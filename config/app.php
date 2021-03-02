@@ -229,6 +229,8 @@ return [
 
     ],
 
-    'HUPUN_BASIC_URI' => env('HUPUN_BASIC_URI', "http://121.36.93.156/api"),
+    'HUPUN_BASIC_URI' => env('HUPUN_BASIC_URI', "http://121.36.93.156"),
+    'HUPUN_BASIC_KEY' => env('HUPUN_BASIC_KEY', "3523496937"),
+    'HUPUN_BASIC_SECRET' => env('HUPUN_BASIC_SECRET', "b8ee03afc77437c8dbfaafb2a0544f17"),
 
 ];
