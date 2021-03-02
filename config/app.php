@@ -229,4 +229,6 @@ return [
 
     ],
 
+    'HUPUN_BASIC_URI' => env('HUPUN_BASIC_URI', "http://121.36.93.156/api"),
+
 ];
