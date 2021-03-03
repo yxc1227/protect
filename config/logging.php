@@ -99,6 +99,15 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'hupun' => [
+            //日志驱动
+            'driver' => 'daily',
+            //日志路径
+            'path' => storage_path('logs/hupun/hupun.log'),
+            //日志等级
+            'level' => 'debug',
+        ],
     ],
 
 ];
