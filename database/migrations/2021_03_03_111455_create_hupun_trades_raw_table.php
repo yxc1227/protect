@@ -17,7 +17,7 @@ class CreateHupunTradesRawTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('timestamp')->comment("录入批次时间戳");
-            $table->text('raw')->comment("请求获取到的有效结果集");
+            $table->longText('raw')->comment("请求获取到的有效结果集");
         });
     }
 
