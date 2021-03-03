@@ -4,8 +4,10 @@
 namespace App\Services;
 
 
+use App\Model\HupunTradesRawModel;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use phpDocumentor\Reflection\Types\Integer;
 use Throwable;
 
 class HupunService
@@ -40,7 +42,6 @@ class HupunService
         } catch (Throwable $e) {
             $message = $e->getMessage();
             Log::channel('hupun')->error($message,['uri'=>$uri,'data'=>$data]);
-        } finally {
             return '';
         }
     }
@@ -48,7 +49,7 @@ class HupunService
     /**
      * 生成万里牛约定的签名
      * @param array $data
-     * @return string|null
+     * @return string
      */
     public function createSign($data = []): ?string
     {
@@ -71,13 +72,25 @@ class HupunService
     }
 
 
-    public function getHupunTrades()
+    /**
+     * 获取并保存原始请求结果
+     * @return int
+     */
+    public function getHupunTrades():Integer
     {
         $now = time();
+        $res = HupunTradesRawModel::select('timestamp')->orderby('timestamp','desc')->first();
+        if($res){
+            $time = $res->timestamp;
+        } else {
+            //万里牛约定仅支持最近三个月的数据，但是实际发现有漏洞可以多拉几个月
+            $time= strtotime(date("Y-m-d H:i:s", strtotime("-24 month")));
+        }
         $uri = '/api/erp/opentrade/list/trades';
+        //业务请求参数，大部分都没啥用
         $customParams = [
 //            'bill_code'=>'P2020083100002367957',
-//            'create_time'=>$now,
+            'create_time'=> $time * 1000,
 //            'modify_time'=>'',
 //            'send_goods_time'=>'',
 //            'finish_time'=>'',
@@ -85,25 +98,29 @@ class HupunService
 //            'pay_time'=>'',
 //            'storage_code'=>'',
             'page' => 1,
-            'limit' => 1,
+            'limit' => 200,
 //            'is_split'=>false,
-//            "receiever_name" => '',
-//            "trade_status" => '',
+//            'receiever_name'=>false,
+//            'receiever_name' => '',
+//            'trade_status' => '',
         ];
         $flag = true;
-
-        while ($flag == true){
+        while ($flag){
             $result = $this->connectiong2hupun($uri,$customParams,$now);
             if(!$result){
                 break;
+                return 0;
             }
             $content = json_decode($result,true);
             if($content['code'] != 0 || empty($content['data'])){
                 $flag = false;
             }
-            $data = $content['data'];
-
+            if(!empty($content['data'])){
+                HupunTradesRawModel::create(['timestamp'=>$now,'raw'=>json_encode($content['data'])]);
+            }
+            $customParams['page'] ++;
         }
+        return $customParams['page'];
 
     }
 }
