@@ -120,7 +120,7 @@ class HupunService
             }
             $customParams['page'] ++;
         }
-        return $customParams['page'];
+        return $now;
 
     }
 }
