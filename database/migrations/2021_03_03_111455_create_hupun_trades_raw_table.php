@@ -16,7 +16,7 @@ class CreateHupunTradesRawTable extends Migration
         Schema::create('hupun_trades_raw', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('timestamp')->comment("录入批次时间戳");
+            $table->unsignedInteger('timestamp')->comment("录入批次时间戳");
             $table->longText('raw')->comment("请求获取到的有效结果集");
         });
     }
