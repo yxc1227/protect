@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\HupunService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class HupunResolve extends Command
 {
@@ -38,7 +39,9 @@ class HupunResolve extends Command
      */
     public function handle()
     {
+        Log::channel('hupun')->info("start resolving raw_info", ['command' => "Hupun:Resolve",]);
         (new HupunService())->resolveHupunTradesRaw();
+        Log::channel('hupun')->info("finish resolving raw_info", ['command' => "Hupun:Resolve",]);
         return 0;
     }
 }

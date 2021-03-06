@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\HupunService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class HupunGet extends Command
 {
@@ -38,7 +39,9 @@ class HupunGet extends Command
      */
     public function handle()
     {
+        Log::channel('hupun')->info("start getting raw_info", ['command' => "Hupun:Get",]);
         (new HupunService())->getHupunTrades();
+        Log::channel('hupun')->info("finish getting raw_info", ['command' => "Hupun:Get",]);
         return 0;
     }
 }
