@@ -11,7 +11,6 @@ use App\Model\HupunTradesRawModel;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
-use phpDocumentor\Reflection\Types\Integer;
 use Throwable;
 
 class HupunService
