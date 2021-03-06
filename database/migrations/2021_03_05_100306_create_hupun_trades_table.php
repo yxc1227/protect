@@ -29,7 +29,7 @@ class CreateHupunTradesTable extends Migration
             $table->decimal('currency_sum')->default(0)->comment('原始货币金额');
             $table->decimal('discount_fee')->default(0)->comment('优惠金额');
             $table->string('district')->default('')->comment('区');
-            $table->dateTime('end_times')->default(null)->comment('完成时间：交易结束或交易成功的时间');
+            $table->dateTime('end_time')->default(null)->comment('完成时间：交易结束或交易成功的时间');
             $table->boolean('exchange_trade')->default(false)->comment('是否售后订单');
             $table->string('express_code')->default('')->comment('快递单号');
             $table->integer('flag')->default(0)->comment('旗子颜色0:无1：红2：黄3：绿4：蓝5：粉');
