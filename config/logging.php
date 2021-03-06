@@ -108,6 +108,14 @@ return [
             //日志等级
             'level' => 'debug',
         ],
+        'hupun_error' => [
+            //日志驱动
+            'driver' => 'daily',
+            //日志路径
+            'path' => storage_path('logs/hupun_error/hupun.log'),
+            //日志等级
+            'level' => 'debug',
+        ],
     ],
 
 ];

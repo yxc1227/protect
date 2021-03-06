@@ -44,7 +44,7 @@ class HupunService
             return (string)$response->getBody();
         } catch (Throwable $e) {
             $message = $e->getMessage();
-            Log::channel('hupun')->error($message, ['uri' => $uri, 'data' => $data]);
+            Log::channel('hupun_error')->error($message, ['uri' => $uri, 'data' => $data]);
             return '';
         }
     }
@@ -188,7 +188,7 @@ class HupunService
             }
         } catch (Throwable $e) {
             $message = $e->getMessage();
-            Log::channel('hupun')->error($message, ['trade' => $trade, 'order' => $order]);
+            Log::channel('hupun_error')->error($message, ['trade' => $trade, 'order' => $order]);
         }
     }
 }
