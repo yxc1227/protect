@@ -79,7 +79,7 @@ class CreateHupunTradesTable extends Migration
             $table->string('tags')->default('');
             $table->string('tel')->default('')->comment('电话');
             $table->integer('tp_logistics_type')->default(-1)->comment('0 快递 1 EMS 2 平邮 11 虚拟商品 121 自提 122 商家自送 125 同城限时达 -1 其它');
-            $table->string('tp_tid')->default('')->comment('线上单号,如果是线下订单，则是万里牛的单号，合单情况下会将单号合并，使用|做分隔符');
+            $table->longText('tp_tid')->nullable()->comment('线上单号,如果是线下订单，则是万里牛的单号，合单情况下会将单号合并，使用|做分隔符');
             $table->longText('trade_extend')->nullable()->comment('定制扩展字段--json');
             $table->string('trade_no')->default('')->comment('订单编码');
             $table->integer('trade_type')->default(1)->comment('订单类型 :1:普通线上订单 5：货到付款 6：分销 7：团购类型 9：天猫国际物流订单类型 50：普通线下订单 51：售后订单（一般换货创建的订单）');
