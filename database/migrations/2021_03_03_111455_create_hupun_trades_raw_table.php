@@ -18,7 +18,7 @@ class CreateHupunTradesRawTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('timestamp')->comment('录入批次时间戳');
             $table->longText('raw')->comment('请求获取到的有效结果集');
-            $table->integer('resolved')->default(0)->comment('是否被解析处理，0未解析，1已解析');
+            $table->boolean('resolved')->default(false)->comment('是否被解析处理，0未解析，1已解析');
         });
     }
 
