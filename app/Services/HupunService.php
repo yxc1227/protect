@@ -4,8 +4,12 @@
 namespace App\Services;
 
 
+use App\Model\HupunTradesInvoiceModel;
+use App\Model\HupunTradesModel;
+use App\Model\HupunTradesOrdersModel;
 use App\Model\HupunTradesRawModel;
 use GuzzleHttp\Client;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use phpDocumentor\Reflection\Types\Integer;
 use Throwable;
@@ -122,5 +126,65 @@ class HupunService
         }
         return $now;
 
+    }
+
+
+    /**
+     *解析接口请求到的原始数据
+     */
+    public function resolveHupunTradesRaw():void
+    {
+        $raws = HupunTradesRawModel::where('resolved','=',0)->get();
+        if(!$raws){
+            return;
+        }
+        $raws->toArray();
+        foreach ($raws as $raw){
+            $rawId = Arr::get($raw,'id');
+            $info = Arr::get($raw,'raw');
+            $trades = json_decode($info,true);
+            foreach ($trades as $trade){
+                $trade['rawid'] = $rawId;
+
+                //json扩展字段做特殊处理防止格式错误
+                $oln_order_list = Arr::get($trade,'oln_order_list');
+                if($oln_order_list){$trade['oln_order_list'] = json_encode($oln_order_list);}
+                $trade_extend = Arr::get($trade,'trade_extend');
+                if($trade_extend){$trade['trade_extend'] = json_encode($trade_extend);}
+
+                //两个通过关系关联的对象要提前摘出
+                $invoice = Arr::get($trade,'invoice');
+                if($invoice){unset($trade['invoice']);}
+                $orders = Arr::get($trade,'orders');
+                if($orders){unset($trade['orders']);}
+
+                //13位时间戳需要特殊处理
+                Arr::get($trade,'create_time') ? $trade['create_time'] = date("Y-m-d H:i:s",$trade['create_time'] / 1000) : null;
+                Arr::get($trade,'modify_time') ? $trade['modify_time'] = date("Y-m-d H:i:s",$trade['modify_time'] / 1000) : null;
+                Arr::get($trade,'pay_time') ? $trade['pay_time'] = date("Y-m-d H:i:s",$trade['pay_time'] / 1000) : null;
+                Arr::get($trade,'end_time') ? $trade['end_time'] = date("Y-m-d H:i:s",$trade['end_time'] / 1000) : null;
+                Arr::get($trade,'print_time') ? $trade['print_time'] = date("Y-m-d H:i:s",$trade['print_time'] / 1000) : null;
+                Arr::get($trade,'send_time') ? $trade['send_time'] = date("Y-m-d H:i:s",$trade['send_time'] / 1000) : null;
+
+                $trade_record = new HupunTradesModel();
+                $trade_record->timestamps = false;
+                $trade_record->forceFill($trade)->save();
+                $tradeId = $trade_record->id;
+                foreach ($orders as $order){
+                    $order['trades_id'] = $tradeId;
+                    $order_record = new HupunTradesOrdersModel();
+                    $order_record->timestamps = false;
+                    $order_record->forceFill($order)->save();
+                }
+                if($invoice){
+                    $invoice['trades_id'] = $tradeId;
+                    $invoice_record = new HupunTradesInvoiceModel();
+                    $invoice_record->timestamps = false;
+                    $invoice_record->forceFill($invoice)->save();
+                }
+            }
+            $raw->resolved = 1;
+            $raw->save();
+        }
     }
 }
