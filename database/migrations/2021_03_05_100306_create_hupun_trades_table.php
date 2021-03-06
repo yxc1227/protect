@@ -63,7 +63,7 @@ class CreateHupunTradesTable extends Migration
             $table->string('receiver')->default('')->comment('收件人');
             $table->text('remark')->nullable()->comment('备注');
             $table->string('sale_man')->default('')->comment('业务员');
-            $table->string('seller_msg')->default('')->comment('卖家留言');
+            $table->text('seller_msg')->nullable()->comment('卖家留言');
             $table->dateTime('send_time')->nullable()->comment('发货时间');
             $table->decimal('service_fee',20,3)->default(0)->comment('服务费');
             $table->string('shop_id')->default('');
