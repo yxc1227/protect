@@ -33,7 +33,7 @@ class CreateHupunTradesOrdersTable extends Migration
             $table->decimal('payment')->default(0)->comment('销售金额');
             $table->decimal('price')->default(0)->comment('单价(商品标价)');
             $table->decimal('receivable')->default(0)->comment('应收');
-            $table->text('remark')->default('')->comment('明细备注');
+            $table->text('remark')->comment('明细备注');
             $table->integer('size')->default(0)->comment('数量');
             $table->string('sku_code')->default('')->comment('规格编码');
             $table->string('sn_value')->default('')->comment('序列号，此字段以不返回数据，请使接口——/erp/sn/querysnbybillcode查询单据中的序列号');

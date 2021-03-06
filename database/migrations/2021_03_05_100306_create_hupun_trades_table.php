@@ -20,7 +20,7 @@ class CreateHupunTradesTable extends Migration
             $table->string('buyer')->default('')->comment('买家昵称');
             $table->string('buyer_account')->default('')->comment('账号');
             $table->string('buyer_mobile')->default('');
-            $table->text('buyer_msg')->default('')->comment('买家留言');
+            $table->text('buyer_msg')->comment('买家留言');
             $table->string('channel_name')->default('')->comment('买家渠道昵称');
             $table->string('city')->default('')->comment('市');
             $table->string('country')->default('')->comment('国家');
@@ -46,8 +46,8 @@ class CreateHupunTradesTable extends Migration
             $table->string('logistic_code')->default('')->comment('万里牛ERP快递公司代码，用户自定义代码');
             $table->string('logistic_name')->default('')->comment('万里牛ERP快递公司名称');
             $table->string('mark')->default('')->comment('订单标记');
-            $table->dateTime('create_time')->comment('修改时间');
-            $table->longText('oln_order_list')->default('')->comment('明细线上单号集合--json');
+            $table->dateTime('modify_time')->comment('修改时间');
+            $table->longText('oln_order_list')->comment('明细线上单号集合--json');
             $table->integer('oln_status')->default(0)->comment('线上状态:1:等待付款 2:等待发货 ,部分发货 3:已完成 4:已关闭 5: 等待确认 6:已签收 0: 未建交易');
             $table->decimal('paid_fee')->default(0)->comment('实际支付金额');
             $table->string('pay_no')->default('')->comment('外部支付单号');
@@ -56,12 +56,12 @@ class CreateHupunTradesTable extends Migration
             $table->string('phone')->default('')->comment('手机号，手机号为空的时候返回电话');
             $table->decimal('post_cost')->default(0)->comment('快递成本,数值可能会变动(如果设置了运费计算规则，订单审核后会根据商品估量和运费规则计算运费成本,称重后根据实际重量重新计算！页面也能直接修改)');
             $table->decimal('post_fee')->default(0)->comment('邮费');
-            $table->text('print_remark')->default(0)->comment('打印备注');
+            $table->text('print_remark')->comment('打印备注');
             $table->dateTime('print_time')->comment('打单时间');
             $table->integer('process_status')->default(0)->comment('万里牛单据处理状态: -3:分销商审核 -2:到账管理 -1:未付款 0:审核 1:打单配货 2:验货 3:称重 4:待发货 5：财审 8:已发货 9:成功 10:关闭 11:异常结束 12:异常处理 13:外部系统配货中 14:预售 15:打包');
             $table->string('province')->default('')->comment('省');
             $table->string('receiver')->default('')->comment('收件人');
-            $table->text('remark')->default('')->comment('备注');
+            $table->text('remark')->comment('备注');
             $table->string('sale_man')->default('')->comment('业务员');
             $table->string('seller_msg')->default('')->comment('卖家留言');
             $table->dateTime('send_time')->comment('发货时间');
@@ -80,7 +80,7 @@ class CreateHupunTradesTable extends Migration
             $table->string('tel')->default('')->comment('电话');
             $table->integer('tp_logistics_type')->default(-1)->comment('0 快递 1 EMS 2 平邮 11 虚拟商品 121 自提 122 商家自送 125 同城限时达 -1 其它');
             $table->string('tp_tid')->default('')->comment('线上单号,如果是线下订单，则是万里牛的单号，合单情况下会将单号合并，使用|做分隔符');
-            $table->longText('trade_extend')->default('')->comment('定制扩展字段--json');
+            $table->longText('trade_extend')->comment('定制扩展字段--json');
             $table->string('trade_no')->default('')->comment('订单编码');
             $table->integer('trade_type')->default(1)->comment('订单类型 :1:普通线上订单 5：货到付款 6：分销 7：团购类型 9：天猫国际物流订单类型 50：普通线下订单 51：售后订单（一般换货创建的订单）');
             $table->string('uid')->default('');
