@@ -76,7 +76,7 @@ class HupunService
      * 获取并保存原始请求结果
      * @return int
      */
-    public function getHupunTrades():Integer
+    public function getHupunTrades():int
     {
         $now = time();
         $res = HupunTradesRawModel::select('timestamp')->orderby('timestamp','desc')->first();
