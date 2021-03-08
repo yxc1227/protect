@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'PRC',
 
     /*
     |--------------------------------------------------------------------------
@@ -228,5 +228,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+    'HUPUN_BASIC_URI' => env('HUPUN_BASIC_URI', "http://121.36.93.156"),
+    'HUPUN_KEY' => env('HUPUN_KEY', "3523496937"),
+    'HUPUN_SECRET' => env('HUPUN_SECRET', "b8ee03afc77437c8dbfaafb2a0544f17"),
 
 ];
